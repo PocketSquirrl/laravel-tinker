@@ -11,11 +11,11 @@ echo "%%START-OUTPUT%%";
 
 $projectSettings = json_decode($argv[2]) ?? new stdClass();
 
-$composerJsonFile = ($projectSettings->vendorRoot ?: __DIR__) . '/composer.json';
+$composerJsonFile = __DIR__ . '/composer.json';
 if (!file_exists($composerJsonFile)) {
     throw new Exception($composerJsonFile . ' does not exist. Please check your project settings.');
 }
-$psyshComposerJsonFile = ($projectSettings->vendorRoot ?: __DIR__) . '/vendor/psy/psysh/composer.json';
+$psyshComposerJsonFile = __DIR__ . '/vendor/psy/psysh/composer.json';
 if (!file_exists($psyshComposerJsonFile)) {
     throw new Exception($psyshComposerJsonFile . ' does not exist. Make sure your composer dependencies are installed and laravel/tinker (or, at minimum, psy/psysh) is required.');
 }
@@ -27,9 +27,9 @@ if ($isLaravelProject) {
     define('LARAVEL_START', microtime(true));
 }
 
-require ($projectSettings->vendorRoot ?: __DIR__) . '/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 if ($isLaravelProject) {
-    $app = require_once ($projectSettings->laravelRoot ?: __DIR__) . '/bootstrap/app.php';
+    $app = require_once __DIR__ . '/bootstrap/app.php';
     $kernel = $app->make(Kernel::class);
     $kernel->bootstrap();
 }
@@ -74,7 +74,7 @@ $output = new ConsoleOutput();
 $shell->setOutput($output);
 $closure = new ExecutionLoopClosure($shell);
 
-$autoloadClassMap = ($projectSettings->vendorRoot ?: __DIR__) . '/vendor/composer/autoload_classmap.php';
+$autoloadClassMap = __DIR__ . '/vendor/composer/autoload_classmap.php';
 if (class_exists('\Laravel\Tinker\ClassAliasAutoloader')) {
     $loader = ClassAliasAutoloader::register($shell, $autoloadClassMap);
 }
